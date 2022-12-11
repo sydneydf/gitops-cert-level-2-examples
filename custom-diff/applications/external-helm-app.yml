@@ -12,7 +12,7 @@ spec:
     repoURL: https://github.com/sydneydf/gitops-cert-level-2-examples.git
     targetRevision: HEAD
     path: ./custom-diff/02-external-app
-   
+
   destination:
     server: https://kubernetes.default.svc
     namespace: example02
@@ -20,5 +20,13 @@ spec:
   # Sync policy
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true  
-   
+      - CreateNamespace=true
+  ignoreDifferences:
+    - group: default
+      kind: Deployment
+      jsonPointers:
+        - /metadata/annotations/creation
+    - group: default
+      kind: Secret
+      jsonPointers:
+        - /data/my-password
